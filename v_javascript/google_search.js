@@ -4,7 +4,7 @@ var webdriver = require('selenium-webdriver'),
     until = webdriver.until,
     test = require('selenium-webdriver/testing');
 
-test.describe('Google Search', function() {
+test.describe('LiteCart Admin Login', function() {
     var driver;
 
     test.before(function() {
@@ -20,11 +20,12 @@ test.describe('Google Search', function() {
         });
     });
 
-    test.it('should append query to title', function() {
-        driver.get('http://www.google.com');
-        driver.findElement(By.name('q')).sendKeys('webdriver');
-        driver.findElement(By.name('btnK')).click();
-        driver.wait(until.titleIs('webdriver - Google Search'), 1000);
+    test.it('should login with valid credentials', function() {
+        driver.get('http://localhost/litecart/admin/');
+        driver.findElement(By.name('username')).sendKeys('admin');
+        driver.findElement(By.name('password')).sendKeys('admin');
+        driver.findElement(By.name('login')).click();
+        driver.wait(until.elementIsVisible(driver.findElement(By.css('#box-apps-menu-wrapper'))), 1000);
     });
 
     test.after(function() {
