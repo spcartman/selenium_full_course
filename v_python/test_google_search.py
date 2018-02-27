@@ -8,13 +8,20 @@ from selenium.webdriver.common.by import By
 @pytest.fixture
 def driver(request):
     wd = webdriver.Chrome()
+    # wd = webdriver.Firefox()
+    # wd = webdriver.Safari()
+    # wd = webdriver.Firefox(capabilities={'marionette': False},
+    #                        firefox_binary='/Applications/Firefoxx.app/Contents/MacOS/firefox-bin')
+    # wd = webdriver.Firefox(firefox_binary='/Applications/FirefoxNightly.app/Contents/MacOS/firefox')
     print(wd.capabilities)
     request.addfinalizer(wd.quit)
     return wd
 
+
 test_url = 'http://localhost/litecart/admin/'
 username = 'admin'
 password = 'admin'
+
 
 def update_input(wd, value, locator):
     input = wd.find_element_by_css_selector(locator)
