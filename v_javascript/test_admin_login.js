@@ -2,9 +2,8 @@ var webdriver = require('selenium-webdriver'),
     chrome = require('selenium-webdriver/chrome'),
     // firefox = require('selenium-webdriver/firefox'),
     // safari = require('selenium-webdriver/safari'),
-    By = webdriver.By,
-    until = webdriver.until,
-    test = require('selenium-webdriver/testing');
+    test = require('selenium-webdriver/testing'),
+    helper = require('./helpers.js');
 
 test.describe('LiteCart Admin Login', function() {
     var driver;
@@ -27,11 +26,9 @@ test.describe('LiteCart Admin Login', function() {
     });
 
     test.it('should login with valid credentials', function() {
-        driver.get('http://localhost/litecart/admin/');
-        driver.findElement(By.name('username')).sendKeys('admin');
-        driver.findElement(By.name('password')).sendKeys('admin');
-        driver.findElement(By.name('login')).click();
-        driver.wait(until.elementIsVisible(driver.findElement(By.css('#box-apps-menu-wrapper'))), 1000);
+        helper.navigateToAdminPortal(driver);
+        helper.adminLogin(driver);
+        helper.waitForElementToBeVisible(driver, '#box-apps-menu-wrapper');
     });
 
     test.after(function() {

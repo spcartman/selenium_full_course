@@ -65,3 +65,4 @@ typings/
 
 #py.test files
 .pytest_cache/
+__pycache__
