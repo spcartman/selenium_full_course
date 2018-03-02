@@ -9,6 +9,12 @@ test_data = {
         'user': 'admin',
         'password': 'admin'
     },
+    'styles': {
+        'colour': {
+            'reg': 'gray',
+            'sale': 'red'
+        },
+    },
     'misc': {
         'expected_number_of_stickers_for_earch_product': 1
     }
