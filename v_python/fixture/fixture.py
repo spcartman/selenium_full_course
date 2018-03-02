@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from model.duck import Duck
 
 
 class Fixture:
@@ -22,7 +23,8 @@ class Fixture:
         self.wd.quit()
 
     def navigate_to(self, url):
-        self.wd.get(url)
+        if not self.wd.current_url == url:
+            self.wd.get(url)
 
     def wait_for_element_to_be_visible(self, locator):
         WebDriverWait(self.wd, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, locator)))
@@ -84,3 +86,50 @@ class Fixture:
 
     def get_country_geo_zones(self):
         return [i.text for i in self.wd.find_elements_by_css_selector('select[name$="[zone_code]"] option[selected]')]
+
+    def get_campaigns_first_duck(self):
+        duck = self.wd.find_elements_by_css_selector('#box-campaigns .product')[0]
+        name = duck.find_element_by_css_selector('.name').text
+        reg_price = duck.find_element_by_css_selector('.regular-price').text[1:]  # strip "$" sign
+        sale_price = duck.find_element_by_css_selector('.campaign-price').text[1:]  # strip "$" sign
+        return Duck(name=name, reg_price=reg_price, sale_price=sale_price)
+
+    def open_campaigns_first_duck(self):
+        self.wd.find_elements_by_css_selector('#box-campaigns .product')[0].click()
+        self.wait_for_element_to_be_visible('#box-product')
+
+    def get_duck_details(self):
+        duck = self.wd.find_element_by_css_selector('#box-product')
+        name = duck.find_element_by_css_selector('.title').text
+        reg_price = duck.find_element_by_css_selector('.regular-price').text[1:]  # strip "$" sign
+        sale_price = duck.find_element_by_css_selector('.campaign-price').text[1:]  # strip "$" sign
+        return Duck(name=name, reg_price=reg_price, sale_price=sale_price)
+
+    def get_price_styles(self, locator):
+        price = self.wd.find_element_by_css_selector(locator)
+        tag = price.get_attribute('localName')
+        bold = tag == 'strong'
+        strike = tag == 's'
+        colour = price.value_of_css_property('color')
+        font_size = float(price.value_of_css_property('font-size')[:-2])
+        return {'bold': bold, 'strike': strike, 'colour': colour, 'font_size': font_size}
+
+    def get_landing_reg_price_style(self):
+        return self.get_price_styles('#box-campaigns .regular-price')
+
+    def get_landing_sale_price_style(self):
+        return self.get_price_styles('#box-campaigns .campaign-price')
+
+    def get_details_reg_price_style(self):
+        return self.get_price_styles('.regular-price')
+
+    def get_details_sale_price_style(self):
+        return self.get_price_styles('.campaign-price')
+
+    def is_price_colour_of_expected_colour(self, style, colour):
+        rgba_num_array = style['colour'].strip('rgba()').split(',')
+        if colour == 'gray':
+            return int(rgba_num_array[0]) == int(rgba_num_array[1]) == int(rgba_num_array[2])
+        elif colour == 'red':
+            return int(rgba_num_array[1]) == int(rgba_num_array[2]) == 0
+        return False

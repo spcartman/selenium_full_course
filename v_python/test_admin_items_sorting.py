@@ -3,10 +3,6 @@ from importlib import import_module
 data = import_module('test_data.data').test_data
 
 
-def get_countries_list(driver):
-    return [country.text for country in driver.find_elements_by_css_selector('a[href*="country_code"]:not([title="Edit"])')]
-
-
 def test_sorting_of_countries(app):
     app.navigate_to(data['url']['admin_countries'])
     app.safe_admin_login(data['credentials']['user'], data['credentials']['password'])
