@@ -10,7 +10,7 @@ from fixture.shop import ShopHelper
 
 class Fixture:
 
-    def __init__(self, admin_root, admin_countries_url, admin_zones_url, admin_name, admin_password,
+    def __init__(self, admin_root, admin_countries_url, admin_zones_url, admin_catalog_url, admin_name, admin_password,
                  shop_root, browser='Chrome'):
         if browser == 'Chrome':
             self.wd = webdriver.Chrome()
@@ -25,6 +25,7 @@ class Fixture:
         self.admin_root = admin_root
         self.admin_countries_url = admin_countries_url
         self.admin_zones_url = admin_zones_url
+        self.admin_catalog_url = admin_catalog_url
         self.admin_name = admin_name
         self.admin_password = admin_password
         self.shop_root = shop_root
