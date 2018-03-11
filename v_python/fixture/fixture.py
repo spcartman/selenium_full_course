@@ -3,11 +3,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from model.duck import Duck
+from fixture.navigation import NavigationHelper
+from fixture.session import SessionHelper
+from fixture.shop import ShopHelper
 
 
 class Fixture:
 
-    def __init__(self, browser='Chrome'):
+    def __init__(self, admin_root, admin_countries_url, admin_zones_url, admin_name, admin_password,
+                 shop_root, browser='Chrome'):
         if browser == 'Chrome':
             self.wd = webdriver.Chrome()
         elif browser == 'Firefox':
@@ -18,13 +22,18 @@ class Fixture:
             self.wd = webdriver.Safari()
         else:
             raise ValueError('Unrecognized browser "%s"' % browser)
+        self.admin_root = admin_root
+        self.admin_countries_url = admin_countries_url
+        self.admin_zones_url = admin_zones_url
+        self.admin_name = admin_name
+        self.admin_password = admin_password
+        self.shop_root = shop_root
+        self.navigation = NavigationHelper(self)
+        self.session = SessionHelper(self)
+        self.shop = ShopHelper(self)
 
     def destroy(self):
         self.wd.quit()
-
-    def navigate_to(self, url):
-        if not self.wd.current_url == url:
-            self.wd.get(url)
 
     def wait_for_element_to_be_visible(self, locator):
         WebDriverWait(self.wd, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, locator)))
@@ -34,19 +43,6 @@ class Fixture:
         input.click()
         input.clear()
         input.send_keys(value)
-
-    def admin_login(self, user, password):
-        self.update_input(user, 'input[name="username"]')
-        self.update_input(password, 'input[name="password"]')
-        self.wd.find_element_by_name('login').click()
-        self.wait_for_element_to_be_visible('#box-apps-menu-wrapper')
-
-    def is_admin_logged_in(self):
-        return len(self.wd.find_elements_by_css_selector('.fa-sign-out')) > 0
-
-    def safe_admin_login(self, user, password):
-        if not self.is_admin_logged_in():
-            self.admin_login(user, password)
 
     def click_through_menu_and_submenu(self):
         for i in range(len(self.wd.find_elements_by_css_selector('li#app-'))):
@@ -133,3 +129,6 @@ class Fixture:
         elif colour == 'red':
             return int(rgba_num_array[1]) == int(rgba_num_array[2]) == 0
         return False
+
+    def safe_user_logout(self):
+        pass

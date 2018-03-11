@@ -24,11 +24,6 @@
 #     wait_for_element_to_be_visible(driver, '#box-apps-menu-wrapper')
 
 
-from importlib import import_module
-
-data = import_module('test_data.data').test_data
-
-
 def test_valid_admin_login(app):
-    app.navigate_to(data['url']['admin_root'])
-    app.safe_admin_login(data['credentials']['user'], data['credentials']['password'])
+    app.navigation.go_to_admin_root()
+    app.session.admin_smart_login()
