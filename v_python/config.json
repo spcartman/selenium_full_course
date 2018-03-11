@@ -3,6 +3,7 @@
     "url": "http://localhost/litecart/admin",
     "countries_url": "/?app=countries&doc=countries",
     "zones_url": "/?app=geo_zones&doc=geo_zones",
+    "catalog_url": "/?app=catalog&doc=catalog",
     "name": "admin",
     "password": "admin"
   },

@@ -18,3 +18,6 @@ class NavigationHelper:
 
     def go_to_shop_root(self):
         self.go_to(self.app.shop_root)
+
+    def go_to_catalog(self):
+        self.go_to(self.app.admin_root + self.app.admin_catalog_url)
