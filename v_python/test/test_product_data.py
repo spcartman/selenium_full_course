@@ -1,10 +1,10 @@
 from importlib import import_module
 
-data = import_module('test_data.data').test_data
+data = import_module('data.data').test_data
 
 
 def test_landing_product_matches_product_details(app):
-    app.navigate_to(data['url']['portal_root'])
+    app.navigation.go_to_shop_root()
     landing_duck = app.get_campaigns_first_duck()
     app.open_campaigns_first_duck()
     details_duck = app.get_duck_details()
@@ -12,7 +12,7 @@ def test_landing_product_matches_product_details(app):
 
 
 def test_product_prices_styles(app):
-    app.navigate_to(data['url']['portal_root'])
+    app.navigation.go_to_shop_root()
     landing_reg_price_style = app.get_landing_reg_price_style()
     landing_sale_price_style = app.get_landing_sale_price_style()
     app.open_campaigns_first_duck()

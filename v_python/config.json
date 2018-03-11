@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "url": "http://localhost/litecart/admin",
+    "countries_url": "/?app=countries&doc=countries",
+    "zones_url": "/?app=geo_zones&doc=geo_zones",
+    "name": "admin",
+    "password": "admin"
+  },
+  "shop": {
+    "url": "http://localhost/litecart"
+  }
+}
