@@ -130,6 +130,3 @@ class Fixture:
         elif colour == 'red':
             return int(rgba_num_array[1]) == int(rgba_num_array[2]) == 0
         return False
-
-    def safe_user_logout(self):
-        pass
