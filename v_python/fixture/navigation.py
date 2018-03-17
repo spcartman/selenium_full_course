@@ -21,3 +21,6 @@ class NavigationHelper:
 
     def go_to_catalog(self):
         self.go_to(self.app.admin_root + self.app.admin_catalog_url)
+
+    def go_to_catalog_first_category(self):
+        self.go_to(self.app.admin_root + self.app.admin_catalog_url + '&category_id=1')
