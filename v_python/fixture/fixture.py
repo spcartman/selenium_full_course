@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from model.duck import Duck
+from fixture.admin_catalog import AdminCatalogHelper
 from fixture.navigation import NavigationHelper
 from fixture.session import SessionHelper
 from fixture.shop import ShopHelper
@@ -32,6 +33,7 @@ class Fixture:
         self.navigation = NavigationHelper(self)
         self.session = SessionHelper(self)
         self.shop = ShopHelper(self)
+        self.admin_catalog = AdminCatalogHelper(self)
 
     def destroy(self):
         self.wd.quit()
